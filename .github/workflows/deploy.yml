@@ -7,10 +7,14 @@ jobs:
     strategy:
       matrix:
 <<<<<<< HEAD
+<<<<<<< HEAD
         node-version: [10.x]
 =======
         node-version: [12.x]
 >>>>>>> props-and-state
+=======
+        node-version: [12.x]
+>>>>>>> e077a224b4016c361b524fad7860f007887e2dee
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
