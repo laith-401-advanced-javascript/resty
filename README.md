@@ -1,7 +1,9 @@
 # resty
 
 
-[LINK PULL Request](https://github.com/laith-401-advanced-javascript/resty/pull/1)
+[Lab 26](https://github.com/laith-401-advanced-javascript/resty/pull/1)
+[Lab 27](https://github.com/laith-401-advanced-javascript/resty/pull/2)
+
 
 
 
