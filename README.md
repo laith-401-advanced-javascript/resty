@@ -67,4 +67,10 @@ linkedIn :https://www.linkedin.com/in/laith-aldaree/
 
 Link to an image of the UML for your application and response to events
 
+lab 26 :
+
 ![UML IMAGE](assest/resty.jpg)
+
+lab 27 : 
+
+![UML IMAGE](assest/resty2.jpg)
