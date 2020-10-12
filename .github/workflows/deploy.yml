@@ -6,15 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-<<<<<<< HEAD
-<<<<<<< HEAD
-        node-version: [10.x]
-=======
         node-version: [12.x]
->>>>>>> props-and-state
-=======
-        node-version: [12.x]
->>>>>>> e077a224b4016c361b524fad7860f007887e2dee
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
@@ -26,8 +18,4 @@ jobs:
         git config --global user.name "${{ github.actor }}"
         git remote set-url origin https://${{ secrets.PERSONAL_SECRET }}@github.com/${{ github.repository }}.git
         npm install
-<<<<<<< HEAD
         npm run deploy
-=======
-        npm run deploy
->>>>>>> props-and-state
