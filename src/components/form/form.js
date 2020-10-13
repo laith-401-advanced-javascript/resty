@@ -6,44 +6,103 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      body: {},
       url: '',
       method: '',
       result: []
     };
   }
 
-  _handleSubmit = async e => {
+  _handleSubmit = async (e) => {
     e.preventDefault();
-    // url :   https://swapi.dev/api/people/
 
-    if(this.state.method === 'get'){
+    this.props.toggle();
 
-      let raw = await fetch(this.state.url);
-      let data = await raw.json();
-      console.log('dataaa', data);
-      
-      
-      
-      this.props.handler(data.count,data.results);
+    if (this.state.method === 'get') {
+
+      let response = await fetch(this.state.url, { // url :   https://swapi.dev/api/people/
+        method: this.state.method,
+        mode: 'cors',
+        cach: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+
+      })
+      let data = await response.json();
+      // console.log('data >>>', data);
+      this.props.handler(data.count, data.results);
+      this.props.toggle();
+      this.props.setHistory(this.state.method,this.state.url,this.state.body);
+
+      // console.log('ressssponse >>>', response);
+      return response;
+    }
+    else if (this.state.method === 'post' || this.state.method === 'put') {
+      let response = await fetch(this.state.url, { // url :   https://swapi.dev/api/people/
+        method: this.state.method,
+        mode: 'cors',
+        cach: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: this.state.body
+      })
+
+      this.props.handler(10, this.state.body);
+      console.log('ressssponse >>>', response);
+      this.props.toggle();
+      this.props.setHistory(this.state.method,this.state.url,this.state.body);
+
+    } else if (this.state.method === 'delete') {
+      let response = await fetch(this.state.url, { // url :   https://swapi.dev/api/people/
+        method: this.state.method,
+        mode: 'cors',
+        cach: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+      })
+
+      this.props.handler(10, 'deleted');
+      console.log('ressssponse >>>', response);
+
+      this.props.toggle();
+    this.props.setHistory(this.state.method,this.state.url,this.state.body);
+
     }
 
-
   }
 
-  handleInput =(e) =>{
+
+  handleInput = (e) => {
     let url = e.target.value;
     console.log('urrrrrl>>>', url);
-    this.setState({ url }); 
+    this.setState({ url });
   }
 
+  handleBodyInput = (e) => {
+    let body = e.target.value;
+    console.log('body>>>', body);
+    this.setState({ body })
+  }
 
-  handleMethod =(e)=> {
+  handleMethod = (e) => {
     let method = e.target.value;
-    console.log('method >>> ', method);
-    this.setState({ method }); 
+    // console.log('method >>> ', method);
+    this.setState({ method });
   }
 
-  handleClick =()=> {
+  handleClick = () => {
     let result = this.state.result;
     result.push(<p key={this.state.result.length + 1} ><span>{this.state.method}</span> {this.state.url} </p>)
     // console.log('result >>> ', result);
@@ -56,31 +115,35 @@ class Form extends React.Component {
       <main className="main">
         <div>
           <label>URL : </label>
-          <input type="text" onChange={this.handleInput} />
+          <input type="text" onChange={this.handleInput} placeholder="https://swapi.dev/api/people/" />
           {/* <button onClick={this._handleSubmit}>GO !</button> */}
         </div>
-
         <form onSubmit={this._handleSubmit}>
 
           <input onClick={this.handleMethod} type="radio" id="get" name="method" value="get" />
           <label >GET</label>
 
-          <input  onClick={this.handleMethod} type="radio" id="post" name="method" value="post" />
+          <input onClick={this.handleMethod} type="radio" id="post" name="method" value="post" />
           <label htmlFor="post">POST</label>
 
-          <input  onClick={this.handleMethod} type="radio" id="put" name="method" value="put" />
+          <input onClick={this.handleMethod} type="radio" id="put" name="method" value="put" />
           <label>PUT</label>
 
-          <input  onClick={this.handleMethod} type="radio" id="delete" name="method" value="delete" />
+          <input onClick={this.handleMethod} type="radio" id="delete" name="method" value="delete" />
           <label htmlFor="delete">DELETE</label>
 
-          <button  onClick={this.handleClick}>GO !</button>
+          <button onClick={this._handleSubmit}>GO !</button>
 
         </form>
-
-        <div className="result">
-          {this.state.result}
+        <div>
+          <label>Body : </label>
+          <br />
+          <textarea id="" name="" rows="4" cols="50" onChange={this.handleBodyInput}></textarea>
         </div>
+
+        {/* <div className="result">
+          {this.state.result}
+        </div> */}
 
       </main>
 
