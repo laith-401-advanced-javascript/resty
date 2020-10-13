@@ -16,7 +16,7 @@ class Form extends React.Component {
     e.preventDefault();
     // url :   https://swapi.dev/api/people/
 
-    if(this.state.method == 'get'){
+    if(this.state.method === 'get'){
 
       let raw = await fetch(this.state.url);
       let data = await raw.json();
