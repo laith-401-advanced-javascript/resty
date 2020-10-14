@@ -1,7 +1,6 @@
 import React from 'react';
-import './form.scss'
+import './form.scss';
 
-//Main
 class Form extends React.Component {
   constructor(props) {
     super(props);
@@ -33,12 +32,10 @@ class Form extends React.Component {
 
       })
       let data = await response.json();
-      // console.log('data >>>', data);
       this.props.handler(data.count, data.results);
       this.props.toggle();
-      this.props.setHistory(this.state.method,this.state.url,this.state.body);
+      this.props.setHistory(this.state.method, this.state.url, this.state.body);
 
-      // console.log('ressssponse >>>', response);
       return response;
     }
     else if (this.state.method === 'post' || this.state.method === 'put') {
@@ -56,9 +53,8 @@ class Form extends React.Component {
       })
 
       this.props.handler(10, this.state.body);
-      console.log('ressssponse >>>', response);
       this.props.toggle();
-      this.props.setHistory(this.state.method,this.state.url,this.state.body);
+      this.props.setHistory(this.state.method, this.state.url, this.state.body);
 
     } else if (this.state.method === 'delete') {
       let response = await fetch(this.state.url, { // url :   https://swapi.dev/api/people/
@@ -74,10 +70,9 @@ class Form extends React.Component {
       })
 
       this.props.handler(10, 'deleted');
-      console.log('ressssponse >>>', response);
 
       this.props.toggle();
-    this.props.setHistory(this.state.method,this.state.url,this.state.body);
+      this.props.setHistory(this.state.method, this.state.url, this.state.body);
 
     }
 
@@ -96,16 +91,15 @@ class Form extends React.Component {
     this.setState({ body })
   }
 
+
   handleMethod = (e) => {
     let method = e.target.value;
-    // console.log('method >>> ', method);
     this.setState({ method });
   }
 
   handleClick = () => {
     let result = this.state.result;
-    result.push(<p key={this.state.result.length + 1} ><span>{this.state.method}</span> {this.state.url} </p>)
-    // console.log('result >>> ', result);
+    result.push(<p id={this.state.result.length} key={this.state.result.length + 1} ><span>{this.state.method}</span> {this.state.url} </p>)
     this.setState({ result })
 
   }
@@ -113,40 +107,38 @@ class Form extends React.Component {
   render() {
     return (
       <main className="main">
-        <div>
-          <label>URL : </label>
-          <input type="text" onChange={this.handleInput} placeholder="https://swapi.dev/api/people/" />
-          {/* <button onClick={this._handleSubmit}>GO !</button> */}
-        </div>
+
         <form onSubmit={this._handleSubmit}>
 
-          <input onClick={this.handleMethod} type="radio" id="get" name="method" value="get" />
-          <label >GET</label>
+          <div class="form-group">
+            <span>https://</span>
+            <input class="form-field" type="text" onChange={this.handleInput} />
+          </div>
+          
+          <input className="big-button" onClick={this.handleMethod} type="submit" id="get" name="method" value="get" />
 
-          <input onClick={this.handleMethod} type="radio" id="post" name="method" value="post" />
-          <label htmlFor="post">POST</label>
+          <input className="big-button" onClick={this.handleMethod} type="submit" id="post" name="method" value="post" />
 
-          <input onClick={this.handleMethod} type="radio" id="put" name="method" value="put" />
-          <label>PUT</label>
+          <input className="big-button" onClick={this.handleMethod} type="submit" id="put" name="method" value="put" />
 
-          <input onClick={this.handleMethod} type="radio" id="delete" name="method" value="delete" />
-          <label htmlFor="delete">DELETE</label>
+          <input className="big-button" onClick={this.handleMethod} type="submit" id="delete" name="method" value="delete" />
+          <br />
+          <br />
 
-          <button onClick={this._handleSubmit}>GO !</button>
+          <button className="big-button" onClick={this._handleSubmit}>GO !</button>
 
         </form>
+        <br />
+        <br />
+
         <div>
           <label>Body : </label>
           <br />
-          <textarea id="" name="" rows="4" cols="50" onChange={this.handleBodyInput}></textarea>
+          <textarea id="" name="" value={this.props.body} rows="4" cols="50" onChange={this.handleBodyInput}></textarea>
         </div>
 
-        {/* <div className="result">
-          {this.state.result}
-        </div> */}
 
       </main>
-
     )
   }
 

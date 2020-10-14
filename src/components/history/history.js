@@ -1,63 +1,67 @@
 import React from 'react';
-// import ReactJson from 'react-json-view'
-// import { If, Then, Else } from '../if/if.js';
-// import './results.scss'
+import './history.scss';
+
 
 const History = (props) => {
 
     // https://swapi.dev/api/people/
     let get = getStorage();
+    // var contain;
 
     const handleContainer = (e) => {
         let get = getStorage();
         let contain = get[parseInt(e.target.id)]
-        props.setContainer(contain)
 
+        props.setContainer(contain)
+        console.log('contaaaaaain>>>', contain);
     }
 
-    console.log('geeeeet', get);
     if (get && get.length > 0) {
-        const result = get.map((value, idx) => {
-
+        let result = get.map((value, idx) => {
             return (
-                <li key={idx}>
-                    {value.method} {value.url}
-                    <button onClick={handleContainer} >Run</button>
-                </li>
+                <main className="bodyHistory1">
+                    <li key={idx}>
+                        {value.method} {value.url}
+                        <button id={idx} onClick={handleContainer} >Run</button>
+                    </li>
+
+                </main>
             )
         })
         return (
-            <div>
-                {console.log('resuuul >>>', result)}
-                {result}
+            <div className="bodyHistory">
+            {result}
+
+                {console.log('resuuul >>>', props)}
+                <div>
+                    <label>Body : </label>
+                    <br />
+                    <textarea id="" name="" rows="4" cols="50" ></textarea>
+                </div>
+
             </div>
+
         )
     }
     else {
         return (
 
-            <div></div>
+            <div className="bodyHistory">
+                The History Is Empty
+            </div>
         )
     }
-
 
 }
 
 const getStorage = () => {
-
     let history = localStorage.getItem('historyArray');
     if (history) {
         let result = JSON.parse(history);
         return result;
     }
 
-
 }
 
 
 export default History;
-
-    // let result = this.state.result;
-    // result.push(<p key={this.state.result.length + 1} ><span>{this.state.method}</span> {this.state.url} </p>)
-    // // console.log('result >>> ', result);
-    // this.setState({ result })

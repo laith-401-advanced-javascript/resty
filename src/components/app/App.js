@@ -4,6 +4,11 @@ import Footer from '../footer/footer';
 import Form from '../form/form';
 import Results from '../results/results.js';
 import History from '../history/history.js';
+import Help from '../help/help.js';
+
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+
 
 class App extends React.Component {
 
@@ -44,15 +49,33 @@ class App extends React.Component {
   }
 
   render() {
-    // console.log('thiis.state : >>>',this.state)
     return (
-      <React.Fragment>
-        <Header />
-        <Form setHistory={this.setHistory} handler={this.updateState} toggle={this.toggleLoading} />
-        <History setContainer={this.setContainer} />
-        <Results loading={this.state.loading} count={this.state.count} headers={this.state.headers} results={this.state.result} />
+      <BrowserRouter>
+            <Header />
+        <Switch>
+          <Route exact path="/">
+
+            <Form body={this.state.container.body} setHistory={this.setHistory} handler={this.updateState} toggle={this.toggleLoading} />
+            <Results loading={this.state.loading} count={this.state.count} headers={this.state.headers} results={this.state.result} />
+
+          </Route>
+
+          <Route exact path="/history">
+          <History setContainer={this.setContainer} />
+
+          </Route>
+
+          <Route exact path="/help">
+            <Help />
+          </Route>
+
+          <Route>404 Page Not Found!</Route>
+
+        </Switch>
+
         <Footer />
-      </React.Fragment>
+
+      </BrowserRouter>
     )
   }
 }
