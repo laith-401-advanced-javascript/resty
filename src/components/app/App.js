@@ -20,7 +20,6 @@ class App extends React.Component {
       headers: {},
       loading: false,
       history: JSON.parse(localStorage.getItem('historyArray')) || [],
-      container: {},
     };
   }
 
@@ -39,10 +38,6 @@ class App extends React.Component {
 
   }
 
-  setContainer = (container) => {
-    this.setState({ container });
-  }
-
   updateState = (count, result) => {
     this.setState({ count, result });
   }
@@ -54,13 +49,13 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/">
 
-            <Form body={this.state.container.body} setHistory={this.setHistory} handler={this.updateState} toggle={this.toggleLoading} />
+            <Form setHistory={this.setHistory} handler={this.updateState} toggle={this.toggleLoading} />
             <Results loading={this.state.loading} count={this.state.count} headers={this.state.headers} results={this.state.result} />
 
           </Route>
 
           <Route exact path="/history">
-            <History setContainer={this.setContainer} />
+            <History />
 
           </Route>
 

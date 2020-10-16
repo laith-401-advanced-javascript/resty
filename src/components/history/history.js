@@ -7,7 +7,7 @@ const getStorage = () => {
   let history = localStorage.getItem('historyArray');
   if (history) {
     let result = JSON.parse(history);
-    console.log('ressuuult ::: ', result );
+    // console.log('ressuuult ::: ', result );
     return result;
   }
 };
@@ -18,20 +18,18 @@ class History extends React.Component {
     super(props);
     this.state = {
       res: {},
+      get:getStorage(),
     };
   }
 
 
     handleContainer = (e) => {
-      let get = getStorage();
-      let contain = get[parseInt(e.target.id)];
-      this.props.setContainer(contain);
+      let contain = this.state.get[parseInt(e.target.id)];
 
       this.hitRequist(contain.method, contain.url, contain.body).then(data => { // https://swapi.dev/api/people/
-
         data.json().then(data => {
           let res = contain.method === 'get' ? data : { result : contain.body } ;
-          console.log('reeeeeeeeeeeeees',res);
+          // console.log('reeeeeeeeeeeeees',res);
           this.setState({ res:res });
         });
       });
@@ -59,9 +57,8 @@ class History extends React.Component {
     }
 
     render() {
-      let get = getStorage();
-      if (get && get.length > 0) {
-        let result = get.map((value, idx) => {
+      if (this.state.get) { // check if we have data in the local storage 
+        let result = this.state.get.map((value, idx) => {
           return (
             <main className="bodyHistory1">
               <li key={idx}>
@@ -74,6 +71,7 @@ class History extends React.Component {
         });
         return (
           <div className="bodyHistory">
+
             {result}
 
             <div id="data">
