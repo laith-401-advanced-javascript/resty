@@ -19,7 +19,7 @@ class App extends React.Component {
       result: [],
       headers: {},
       loading: false,
-      history: [],
+      history: JSON.parse(localStorage.getItem('historyArray')) || [],
       container: {}
     }
   }
@@ -29,14 +29,13 @@ class App extends React.Component {
   }
 
   setHistory = (method, url, body) => {
-
     let object = { method, url, body };
+    
     let history = [...this.state.history, object]
     this.setState({ history });
-
+    
     let historyArray = JSON.stringify(this.state.history);
     localStorage.setItem('historyArray', historyArray);
-
 
   }
 

@@ -14,67 +14,26 @@ class Form extends React.Component {
 
   _handleSubmit = async (e) => {
     e.preventDefault();
-
     this.props.toggle();
 
-    if (this.state.method === 'get') {
-
       let response = await fetch(this.state.url, { // url :   https://swapi.dev/api/people/
         method: this.state.method,
         mode: 'cors',
         cach: 'no-cache',
         credentials: 'same-origin',
         headers: {
-          'Content-type': 'application/json'
+          'Content-Type': 'application/json'
         },
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
+        body : this.state.method === 'get' || this.state.method === 'delete'
+        ? null : JSON.stringify(this.state.body)
+      }) 
 
-      })
       let data = await response.json();
-      this.props.handler(data.count, data.results);
+      this.props.handler(data.count  ? data.count : '10' , data.results ? data.results: this.state.body);
       this.props.toggle();
       this.props.setHistory(this.state.method, this.state.url, this.state.body);
-
-      return response;
-    }
-    else if (this.state.method === 'post' || this.state.method === 'put') {
-      let response = await fetch(this.state.url, { // url :   https://swapi.dev/api/people/
-        method: this.state.method,
-        mode: 'cors',
-        cach: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: this.state.body
-      })
-
-      this.props.handler(10, this.state.body);
-      this.props.toggle();
-      this.props.setHistory(this.state.method, this.state.url, this.state.body);
-
-    } else if (this.state.method === 'delete') {
-      let response = await fetch(this.state.url, { // url :   https://swapi.dev/api/people/
-        method: this.state.method,
-        mode: 'cors',
-        cach: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-      })
-
-      this.props.handler(10, 'deleted');
-
-      this.props.toggle();
-      this.props.setHistory(this.state.method, this.state.url, this.state.body);
-
-    }
 
   }
 
@@ -109,12 +68,17 @@ class Form extends React.Component {
       <main className="main">
 
         <form onSubmit={this._handleSubmit}>
-
-          <div class="form-group">
+          <div className="form-group">
             <span>https://</span>
-            <input class="form-field" type="text" onChange={this.handleInput} />
+            <input className="form-field" type="text" onChange={this.handleInput} />
           </div>
-          
+
+          <div>
+            <label>Body : </label>
+            <br />
+            <textarea id="" name="" rows="4" cols="50" onChange={this.handleBodyInput}></textarea>
+          </div>
+
           <input className="big-button" onClick={this.handleMethod} type="submit" id="get" name="method" value="get" />
 
           <input className="big-button" onClick={this.handleMethod} type="submit" id="post" name="method" value="post" />
@@ -125,18 +89,12 @@ class Form extends React.Component {
           <br />
           <br />
 
-          <button className="big-button" onClick={this._handleSubmit}>GO !</button>
+          <button className="big-button" >GO !</button>
 
         </form>
+
         <br />
         <br />
-
-        <div>
-          <label>Body : </label>
-          <br />
-          <textarea id="" name="" value={this.props.body} rows="4" cols="50" onChange={this.handleBodyInput}></textarea>
-        </div>
-
 
       </main>
     )
