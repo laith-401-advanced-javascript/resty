@@ -1,90 +1,103 @@
 import React from 'react';
-import './form.scss'
+import './form.scss';
 
-//Main
 class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      body: {},
       url: '',
       method: '',
-      result: []
+      result: [],
     };
   }
 
-  _handleSubmit = async e => {
+  _handleSubmit = async (e) => {
     e.preventDefault();
-    // url :   https://swapi.dev/api/people/
+    this.props.toggle();
 
-    if(this.state.method === 'get'){
+    let response = await fetch(this.state.url, { // url :   https://swapi.dev/api/people/
+      method: this.state.method,
+      mode: 'cors',
+      cach: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body : this.state.method === 'get' || this.state.method === 'delete'
+        ? null : JSON.stringify(this.state.body),
+    }); 
 
-      let raw = await fetch(this.state.url);
-      let data = await raw.json();
-      console.log('dataaa', data);
-      
-      
-      
-      this.props.handler(data.count,data.results);
-    }
-
+    let data = await response.json();
+    this.props.handler(data.count  ? data.count : '10' , data.results ? data.results: this.state.body);
+    this.props.toggle();
+    this.props.setHistory(this.state.method, this.state.url, this.state.body);
 
   }
 
-  handleInput =(e) =>{
+
+  handleInput = (e) => {
     let url = e.target.value;
     console.log('urrrrrl>>>', url);
-    this.setState({ url }); 
+    this.setState({ url });
+  }
+
+  handleBodyInput = (e) => {
+    let body = e.target.value;
+    console.log('body>>>', body);
+    this.setState({ body });
   }
 
 
-  handleMethod =(e)=> {
+  handleMethod = (e) => {
     let method = e.target.value;
-    console.log('method >>> ', method);
-    this.setState({ method }); 
+    this.setState({ method });
   }
 
-  handleClick =()=> {
+  handleClick = () => {
     let result = this.state.result;
-    result.push(<p key={this.state.result.length + 1} ><span>{this.state.method}</span> {this.state.url} </p>)
-    // console.log('result >>> ', result);
-    this.setState({ result })
+    result.push(<p id={this.state.result.length} key={this.state.result.length + 1} ><span>{this.state.method}</span> {this.state.url} </p>);
+    this.setState({ result });
 
   }
 
   render() {
     return (
       <main className="main">
-        <div>
-          <label>URL : </label>
-          <input type="text" onChange={this.handleInput} />
-          {/* <button onClick={this._handleSubmit}>GO !</button> */}
-        </div>
 
         <form onSubmit={this._handleSubmit}>
+          <div className="form-group">
+            <span>https://</span>
+            <input className="form-field" type="text" onChange={this.handleInput} />
+          </div>
 
-          <input onClick={this.handleMethod} type="radio" id="get" name="method" value="get" />
-          <label >GET</label>
+          <div>
+            <label>Body : </label>
+            <br />
+            <textarea id="" name="" rows="4" cols="50" onChange={this.handleBodyInput}></textarea>
+          </div>
 
-          <input  onClick={this.handleMethod} type="radio" id="post" name="method" value="post" />
-          <label htmlFor="post">POST</label>
+          <input className="big-button" onClick={this.handleMethod} type="submit" id="get" name="method" value="get" />
 
-          <input  onClick={this.handleMethod} type="radio" id="put" name="method" value="put" />
-          <label>PUT</label>
+          <input className="big-button" onClick={this.handleMethod} type="submit" id="post" name="method" value="post" />
 
-          <input  onClick={this.handleMethod} type="radio" id="delete" name="method" value="delete" />
-          <label htmlFor="delete">DELETE</label>
+          <input className="big-button" onClick={this.handleMethod} type="submit" id="put" name="method" value="put" />
 
-          <button  onClick={this.handleClick}>GO !</button>
+          <input className="big-button" onClick={this.handleMethod} type="submit" id="delete" name="method" value="delete" />
+          <br />
+          <br />
+
+          <button className="big-button" >GO !</button>
 
         </form>
 
-        <div className="result">
-          {this.state.result}
-        </div>
+        <br />
+        <br />
 
       </main>
-
-    )
+    );
   }
 
 
