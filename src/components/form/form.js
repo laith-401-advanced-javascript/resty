@@ -8,7 +8,7 @@ class Form extends React.Component {
       body: {},
       url: '',
       method: '',
-      result: []
+      result: [],
     };
   }
 
@@ -16,24 +16,24 @@ class Form extends React.Component {
     e.preventDefault();
     this.props.toggle();
 
-      let response = await fetch(this.state.url, { // url :   https://swapi.dev/api/people/
-        method: this.state.method,
-        mode: 'cors',
-        cach: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body : this.state.method === 'get' || this.state.method === 'delete'
-        ? null : JSON.stringify(this.state.body)
-      }) 
+    let response = await fetch(this.state.url, { // url :   https://swapi.dev/api/people/
+      method: this.state.method,
+      mode: 'cors',
+      cach: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body : this.state.method === 'get' || this.state.method === 'delete'
+        ? null : JSON.stringify(this.state.body),
+    }); 
 
-      let data = await response.json();
-      this.props.handler(data.count  ? data.count : '10' , data.results ? data.results: this.state.body);
-      this.props.toggle();
-      this.props.setHistory(this.state.method, this.state.url, this.state.body);
+    let data = await response.json();
+    this.props.handler(data.count  ? data.count : '10' , data.results ? data.results: this.state.body);
+    this.props.toggle();
+    this.props.setHistory(this.state.method, this.state.url, this.state.body);
 
   }
 
@@ -47,7 +47,7 @@ class Form extends React.Component {
   handleBodyInput = (e) => {
     let body = e.target.value;
     console.log('body>>>', body);
-    this.setState({ body })
+    this.setState({ body });
   }
 
 
@@ -58,8 +58,8 @@ class Form extends React.Component {
 
   handleClick = () => {
     let result = this.state.result;
-    result.push(<p id={this.state.result.length} key={this.state.result.length + 1} ><span>{this.state.method}</span> {this.state.url} </p>)
-    this.setState({ result })
+    result.push(<p id={this.state.result.length} key={this.state.result.length + 1} ><span>{this.state.method}</span> {this.state.url} </p>);
+    this.setState({ result });
 
   }
 
@@ -97,7 +97,7 @@ class Form extends React.Component {
         <br />
 
       </main>
-    )
+    );
   }
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
-import './header.scss'
+import './header.scss';
 
 const Header = () => {
   return (
@@ -13,16 +13,16 @@ const Header = () => {
           <li>
             <Link to="/">Home</Link>
           </li>
-            <li>
-              <NavLink to="/history" >History</NavLink>
-            </li>
-            <li>
-              <NavLink to="/help" >Help</NavLink>
-            </li>
+          <li>
+            <NavLink to="/history" >History</NavLink>
+          </li>
+          <li>
+            <NavLink to="/help" >Help</NavLink>
+          </li>
         </ul>
       </nav>
     </header>
-  )
+  );
 };
 
 

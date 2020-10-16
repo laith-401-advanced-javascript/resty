@@ -20,8 +20,8 @@ class App extends React.Component {
       headers: {},
       loading: false,
       history: JSON.parse(localStorage.getItem('historyArray')) || [],
-      container: {}
-    }
+      container: {},
+    };
   }
 
   toggleLoading = () => {
@@ -31,7 +31,7 @@ class App extends React.Component {
   setHistory = (method, url, body) => {
     let object = { method, url, body };
     
-    let history = [...this.state.history, object]
+    let history = [...this.state.history, object];
     this.setState({ history });
     
     let historyArray = JSON.stringify(this.state.history);
@@ -40,7 +40,7 @@ class App extends React.Component {
   }
 
   setContainer = (container) => {
-    this.setState({ container })
+    this.setState({ container });
   }
 
   updateState = (count, result) => {
@@ -50,7 +50,7 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-            <Header />
+        <Header />
         <Switch>
           <Route exact path="/">
 
@@ -60,7 +60,7 @@ class App extends React.Component {
           </Route>
 
           <Route exact path="/history">
-          <History setContainer={this.setContainer} />
+            <History setContainer={this.setContainer} />
 
           </Route>
 
@@ -75,7 +75,7 @@ class App extends React.Component {
         <Footer />
 
       </BrowserRouter>
-    )
+    );
   }
 }
 

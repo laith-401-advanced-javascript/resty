@@ -1,18 +1,18 @@
 import React from 'react';
-import './help.scss'
+import './help.scss';
 class Help extends React.Component {
 
-    render() {
-        return (
+  render() {
+    return (
           
-         <div>
+      <div>
 
-            <blockquote>Our project About To Hit an Api to  'GET'  ' POST'  'PUT' 'DELETE'</blockquote>
+        <blockquote>Our project About To Hit an Api to  'GET'  ' POST'  'PUT' 'DELETE'</blockquote>
 
-         </div>
+      </div>
 
-        )
-    }
+    );
+  }
 }
 
 export default Help;

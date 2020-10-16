@@ -74,3 +74,9 @@ lab 26 :
 lab 27 : 
 
 ![UML IMAGE](assest/resty2.jpg)
+
+assest/fullrestyUmljpg.jpg
+
+last UML : 
+
+![UML IMAGE](assest/fullrestyUmljpg.jpg)
